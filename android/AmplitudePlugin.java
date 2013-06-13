@@ -1,11 +1,11 @@
 package com.tealeaf.plugin.plugins;
 
+import com.amplitude.api.Amplitude;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import com.tealeaf.logger;
 import com.tealeaf.TeaLeaf;
-import com.amplitude.android.Amplitude;
 import com.tealeaf.plugin.IPlugin;
 import java.io.*;
 import org.json.JSONArray;
@@ -51,7 +51,7 @@ public class AmplitudePlugin implements IPlugin {
             android.util.Log.d("EXCEPTION", "" + e.getMessage());
         }
 
-        Amplitude.initialize(this, amplitudeKey);
+        Amplitude.initialize(activity, amplitudeKey);
     }
 
     public void onResume() {
@@ -75,21 +75,7 @@ public class AmplitudePlugin implements IPlugin {
             eventName = obj.getString("eventName");
             Map<String, String> params = new HashMap<String, String>();
             JSONObject paramsObj = obj.getJSONObject("params");
-            Iterator<String> iter = paramsObj.keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                String value = null;
-                try {
-                    value = paramsObj.getString(key);
-                } catch (JSONException e) {
-                    logger.log("{amplitude} {android} logEvent - failure: " + eventName + " - " + e.getMessage());
-                }
-
-                if (value != null) {
-                    params.put(key, value);
-                }
-            }
-            Amplitude.logEvent(eventName, params);
+            Amplitude.logEvent(eventName, paramsObj);
             logger.log("{amplitude} {android} logEvent - success: " + eventName);
         } catch (JSONException e) {
             logger.log("{amplitude} {android} logEvent - failure: " + eventName + " - " + e.getMessage());
