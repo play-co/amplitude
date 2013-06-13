@@ -75,7 +75,7 @@ You can conclusively confirm events are going through on the Amplitude website.
 Nothing actually gets sent to Amplitude in browsers, but you'll still see logs that look like this:
 
 ~~~
-D/JS      ( 4673): LOG plugins.amplitude.install {amplitude} logEvent:  AppStart
+D/JS      ( 4673): LOG plugins.amplitude.install {amplitude} logEvent:  AppStart [object Object]
 ~~~
 
 You can use these logs to implement tracking in your game.
