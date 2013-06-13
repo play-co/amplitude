@@ -1,0 +1,12 @@
+{
+    "copyFiles": [
+        "AmplitudePlugin.java"
+    ],
+    "libraries": [
+    ],
+    "jars": [
+        "Amplitude.jar"
+    ],
+    "injectionXML": "manifest.xml",
+	"injectionXSL": "manifest.xsl"
+}
