@@ -98,7 +98,7 @@ public class AmplitudePlugin implements IPlugin {
     }
 
     public boolean consumeOnBackPressed() {
-        return false;
+        return true;
     }
 
     public void onBackPressed() {
