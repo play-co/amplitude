@@ -1,8 +1,9 @@
 var Amplitude = Class(function () {
 	this.track = function (name, data) {
-		logger.log("{amplitude} logEvent: ", name, data);
-		NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent &&
-			NATIVE.plugins.sendEvent("AmplitudePlugin", "logEvent",
+		logger.log("{amplitude} track: ", name, data);
+
+		NATIVE && NATIVE.plugins && NATIVE.plugins.track &&
+			NATIVE.plugins.sendEvent("AmplitudePlugin", "track",
 				JSON.stringify({ eventName: name, params: data }));
 	};
 });
