@@ -31,16 +31,16 @@ Under the Android section, you can configure the Amplitude plugin:
 	}
 ~~~
 
-To use Amplitude logging in your game, install the plugin at the top of Application.js, like so:
+To use Amplitude tracking in your game, import the plugin:
 
 ~~~
-import plugins.amplitude.install;
+import plugins.amplitude.amplitude as amplitude;
 ~~~
 
-Then send individual logs like this:
+Then send individual track events like this:
 
 ~~~
-amplitude.logEvent("myEvent", {
+amplitude.track("myEvent", {
 	"score": 999,
 	"coins": 11,
 	"isRandomParameter": true
@@ -81,7 +81,7 @@ You can conclusively confirm events are going through on the Amplitude website.
 Nothing actually gets sent to Amplitude in browsers, but you'll still see logs that look like this:
 
 ~~~
-D/JS      ( 4673): LOG plugins.amplitude.install {amplitude} logEvent:  AppStart [object Object]
+D/JS      ( 4673): LOG plugins.amplitude.amplitude {amplitude} track:  AppStart [object Object]
 ~~~
 
 You can use these logs to implement tracking in your game.

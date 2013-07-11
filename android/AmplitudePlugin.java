@@ -68,7 +68,7 @@ public class AmplitudePlugin implements IPlugin {
     public void onStop() {
     }
 
-    public void logEvent(String json) {
+    public void track(String json) {
         String eventName = "noName";
         try {
             JSONObject obj = new JSONObject(json);
@@ -76,9 +76,9 @@ public class AmplitudePlugin implements IPlugin {
             Map<String, String> params = new HashMap<String, String>();
             JSONObject paramsObj = obj.getJSONObject("params");
             Amplitude.logEvent(eventName, paramsObj);
-            logger.log("{amplitude} {android} logEvent - success: " + eventName);
+            logger.log("{amplitude} track - success: " + eventName);
         } catch (JSONException e) {
-            logger.log("{amplitude} {android} logEvent - failure: " + eventName + " - " + e.getMessage());
+            logger.log("{amplitude} track - failure: " + eventName + " - " + e.getMessage());
         }
     }
 
