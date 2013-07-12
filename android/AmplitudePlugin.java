@@ -76,7 +76,10 @@ public class AmplitudePlugin implements IPlugin {
             JSONObject obj = new JSONObject(json);
             eventName = obj.getString("eventName");
             Map<String, String> params = new HashMap<String, String>();
-            JSONObject paramsObj = obj.getJSONObject("params");
+            JSONObject paramsObj = obj.optJSONObject("params");
+            if (paramsObj == null) {
+                paramsObj = new JSONObject();
+            }
             Amplitude.logEvent(eventName, paramsObj);
             logger.log("{amplitude} track - success: " + eventName);
         } catch (JSONException e) {
