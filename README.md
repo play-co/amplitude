@@ -74,22 +74,4 @@ E/JS      ( 4673): {amplitude} {android} logEvent - success: UpgradePriceGroup
 
 You can conclusively confirm events are going through on the Amplitude website.
 
-## Platform-specific notes
-
-### Browsers
-
-Nothing actually gets sent to Amplitude in browsers, but you'll still see logs that look like this:
-
-~~~
-D/JS      ( 4673): LOG plugins.amplitude.amplitude {amplitude} track:  AppStart [object Object]
-~~~
-
-You can use these logs to implement tracking in your game.
-
-### iOS
-
-No iOS implementation at this time.
-
-### Android
-
-To use this plugin with Android, you'll need to set up an Amplitude account and add your Amplitude key to the manifest (see Usage section, above).
+iOS similarly does not print out anything useful when it is working properly.  Just look for errors on the console by searching for "amplitude."

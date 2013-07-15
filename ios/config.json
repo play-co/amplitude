@@ -1,5 +1,12 @@
 {
 	"code": [
+		"Amplitude.h",
+		"Amplitude.m",
+		"AmplitudeARCMacros.h",
+		"AmplitudeLocationManagerDelegate.h",
+		"AmplitudeLocationManagerDelegate.m",
+		"AmplitudePlugin.h",
+		"AmplitudePlugin.mm"
 	],
 	"frameworks": [
 	]
