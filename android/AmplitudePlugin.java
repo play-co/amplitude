@@ -42,13 +42,20 @@ public class AmplitudePlugin implements IPlugin {
         this.activity = activity;
         PackageManager manager = activity.getPackageManager();
         String amplitudeKey = "";
+        String amplitudeKeyStaging = "";
         try {
             Bundle meta = manager.getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA).metaData;
             if (meta != null) {
-                amplitudeKey = meta.getString("AMPLITUDE_KEY");
+                boolean debug = meta.getBoolean("WEEBY_DEBUG", true);
+
+                if (debug) {
+                    amplitudeKey = meta.getString("AMPLITUDE_KEY_STAGING");
+                } else {
+                    amplitudeKey = meta.getString("AMPLITUDE_KEY");
+                }
             }
         } catch (Exception e) {
-            android.util.Log.d("EXCEPTION", "" + e.getMessage());
+            logger.log("{amplitude} EXCEPTION", "" + e.getMessage());
         }
 
         Amplitude.initialize(activity, amplitudeKey);
