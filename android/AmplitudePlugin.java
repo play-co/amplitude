@@ -79,8 +79,12 @@ public class AmplitudePlugin implements IPlugin {
     public void onStop() {
     }
 
-    public void setGlobalProperty(String key, String value) {
+    public void setGlobalProperty(String json) {
         try {
+            JSONObject obj = new JSONObject(json);
+            String key = obj.getString("key");
+            String value = obj.getString("value");
+
             globalProperties.put(key, value);
             Amplitude.setGlobalUserProperties(globalProperties);
         } catch (JSONException exception) {
