@@ -30,6 +30,8 @@ import java.util.Iterator;
 public class AmplitudePlugin implements IPlugin {
     Activity activity;
 
+    private JSONObject globalProperties = new JSONObject();
+
     public AmplitudePlugin() {
 
     }
@@ -75,6 +77,14 @@ public class AmplitudePlugin implements IPlugin {
     }
 
     public void onStop() {
+    }
+
+    public void setGlobalProperty(String key, String value) {
+        try {
+            globalProperties.put(key, value);
+            Amplitude.setGlobalUserProperties(globalProperties);
+        } catch (JSONException exception) {
+        }
     }
 
     public void track(String json) {
