@@ -1,8 +1,6 @@
 # Game Closure DevKit Plugin: Amplitude
 
-Amplitude support is still in progress.  In the meantime you can use this plugin as
-a starting point in case you want to integrate it yourself.  Right now only the
-Android platform is working and only for analytics it does not show advertising.
+This plugin supports iOS and Android tracking events through the Amplitude service.
 
 ## Usage
 
@@ -27,7 +25,7 @@ Under the Android section, you can configure the Amplitude plugin:
 			"72": "resources/icons/android72.png",
 			"96": "resources/icons/android96.png"
 		},
-		"amplitudeKey": "MUmm2eD3qdBSPlcLb3qz"
+		"ampKey": "MUmm2eD3qdBSPlcLb3qz"
 	}
 ~~~
 
