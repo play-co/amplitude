@@ -21,10 +21,12 @@
 - (void) initializeWithManifest:(NSDictionary *)manifest appDelegate:(TeaLeafAppDelegate *)appDelegate {
 	@try {
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
+
+#ifdef DEBUG
 		NSString *amplitudeKey = [ios valueForKey:@"ampKeyStaging"];
-		if (!amplitudeKey) {
-			amplitudeKey = [ios valueForKey:@"ampKey"];
-		}
+#else
+		NSString *amplitudeKey = [ios valueForKey:@"ampKey"];
+#endif
 
 		[Amplitude initializeApiKey:amplitudeKey];
 
