@@ -1,7 +1,7 @@
 import device;
 
 var hasNativeEvents = GLOBAL.NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent;
-var isBrowser = !hasNativeEvents && !device.isMobileNative && GLOBAL.document;
+var isBrowser = !hasNativeEvents && !device.isMobileNative && GLOBAL.document && GLOBAL.amplitude;
 
 var Amplitude = Class(function () {
 
@@ -9,34 +9,19 @@ var Amplitude = Class(function () {
 
 		this._config = CONFIG.addons.amplitude || {};
 
-		if (isBrowser && CONFIG.version != 'debug') {
-
-			// --- begin embed code
-			//
-			// https://github.com/amplitude/Amplitude-Javascript
-
-			(function(e,t){var r=e.amplitude||{};var a=t.createElement("script");a.type="text/javascript";
-			a.async=true;a.src="https://d24n15hnbwhuhn.cloudfront.net/libs/amplitude-1.0-min.js";
-			var n=t.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);
-			r._q=[];function i(e){r[e]=function(){r._q.push([e].concat(Array.prototype.slice.call(arguments,0)))}}
-			var s=["init","logEvent","setUserId","setGlobalUserProperties","setVersionName"];
-			for(var c=0;c<s.length;c++){i(s[c])}e.amplitude=r})(window,document);
-
-			// --- end embed code
-
-			this._amplitude = amplitude;
+		if (isBrowser) {
 
 			var apiKey = this._config.apiKey;
 			if (apiKey) {
-				this._amplitude.init(apiKey);
-				this._amplitude.setVersionName(CONFIG.version);
+				amplitude.init(apiKey);
+				amplitude.setVersionName(CONFIG.version);
 			}
 		}
 	}
 
 	this.setUserId = function (userId) {
-		if (this._amplitude) {
-			this._amplitude.setUserId(userId);
+		if (isBrowser) {
+			amplitude.setUserId(userId);
 		}
 	}
 
@@ -51,8 +36,18 @@ var Amplitude = Class(function () {
 					eventName: name,
 					params: data
 				}));
-		} else if (this._amplitude) {
-			this._amplitude.logEvent(name, data);
+		} else if (isBrowser) {
+			if (GLOBAL.__amplitude && __amplitude.timer) {
+				clearInterval(__amplitude.timer);
+				__amplitude.timer = null;
+
+				amplitude.logEvent('PAGE_LOADED', {
+						totalTime: ((Date.now() - __amplitude.start) / 1000).toFixed(1)
+					});
+			}
+
+			logger.log("tracking", name);
+			amplitude.logEvent(name, data);
 		}
 	};
 
