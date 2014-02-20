@@ -25,9 +25,14 @@ Under the Android section, you can configure the Amplitude plugin:
 			"72": "resources/icons/android72.png",
 			"96": "resources/icons/android96.png"
 		},
-		"ampKey": "MUmm2eD3qdBSPlcLb3qz"
+		"ampKey": "MUmm2eD3qdBSPlcLb3qz",
+		"ampKeyStaging": "MUmm2eD3qdBSPlcLb3qz"
 	}
 ~~~
+
+The `ampKey` will be used when building in "release" mode, and `ampKeyStaging`
+will be used when building in "debug" mode.  To make your tracking work on both
+be sure to specify keys for both modes.
 
 To use Amplitude tracking in your game, import the plugin:
 
