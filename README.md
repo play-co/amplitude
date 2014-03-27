@@ -6,6 +6,11 @@ This plugin supports iOS and Android tracking events through the Amplitude servi
 
 Install the plugin with `basil install amplitude`.
 
+In order to build for Android, you will need a modern version of the JDK from Oracle
+since the JAR provided by Amplitude is built for a newer compiler than the standard
+version 1.6 found on Mac OS X.  It can be downloaded from here for any platform:
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
 Include it in the `manifest.json` file under the "addons" section for your game:
 
 ~~~

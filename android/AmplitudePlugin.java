@@ -1,6 +1,5 @@
 package com.tealeaf.plugin.plugins;
 
-import com.amplitude.api.Amplitude;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -26,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 
+import package com.amplitude.api;
 
 public class AmplitudePlugin implements IPlugin {
     Activity activity;
@@ -88,7 +88,7 @@ public class AmplitudePlugin implements IPlugin {
 
             globalProperties.put(key, value);
 
-			Amplitude.setGlobalUserProperties(globalProperties);
+			Amplitude.setUserProperties(globalProperties);
 
 			logger.log("{amplitude} setGlobalProperty - success:", key, ":", value);
         } catch (JSONException exception) {
