@@ -45,7 +45,8 @@ public class AmplitudePlugin implements IPlugin {
         PackageManager manager = activity.getPackageManager();
         String amplitudeKey = "";
         String amplitudeKeyStaging = "";
-        try {
+
+		try {
             Bundle meta = manager.getApplicationInfo(activity.getPackageName(), PackageManager.GET_META_DATA).metaData;
             if (meta != null) {
                 boolean debug = meta.getBoolean("WEEBY_DEBUG", true);
@@ -86,8 +87,25 @@ public class AmplitudePlugin implements IPlugin {
             String value = obj.getString("value");
 
             globalProperties.put(key, value);
-            Amplitude.setGlobalUserProperties(globalProperties);
+
+			Amplitude.setGlobalUserProperties(globalProperties);
+
+			logger.log("{amplitude} setGlobalProperty - success:", key, ":", value);
         } catch (JSONException exception) {
+			logger.log("{amplitude} setGlobalProperty - failure:", exception);
+        }
+    }
+
+    public void setUser(String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String user = obj.getString("user");
+
+			Amplitude.setUserId(user);
+
+			logger.log("{amplitude} setUser - success:", user);
+        } catch (JSONException exception) {
+			logger.log("{amplitude} setUser - failure:", exception);
         }
     }
 
@@ -96,13 +114,16 @@ public class AmplitudePlugin implements IPlugin {
         try {
             JSONObject obj = new JSONObject(json);
             eventName = obj.getString("eventName");
-            Map<String, String> params = new HashMap<String, String>();
+
+			Map<String, String> params = new HashMap<String, String>();
             JSONObject paramsObj = obj.optJSONObject("params");
             if (paramsObj == null) {
                 paramsObj = new JSONObject();
             }
-            Amplitude.logEvent(eventName, paramsObj);
-            logger.log("{amplitude} track - success: " + eventName);
+
+			Amplitude.logEvent(eventName, paramsObj);
+
+			logger.log("{amplitude} track - success: " + eventName);
         } catch (JSONException e) {
             logger.log("{amplitude} track - failure: " + eventName + " - " + e.getMessage());
         }

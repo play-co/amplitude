@@ -20,7 +20,11 @@ var Amplitude = Class(function () {
 	}
 
 	this.setUserId = function (userId) {
-		if (isBrowser) {
+		if (hasNativeEvents) {
+			NATIVE.plugins.sendEvent("AmplitudePlugin", "setUser", JSON.stringify({
+					user: userId
+				}));
+		} else if (isBrowser) {
 			amplitude.setUserId(userId);
 		}
 	}
@@ -28,7 +32,7 @@ var Amplitude = Class(function () {
 	this.trackEvent =
 	this.track = function (name, data) {
 		if (DEBUG) {
-			logger.log("track: ", name, JSON.stringify(data));
+			logger.log("track:", name, JSON.stringify(data));
 		}
 
 		if (hasNativeEvents) {
