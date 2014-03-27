@@ -22,11 +22,12 @@
 	@try {
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
 
-#ifdef DEBUG
-		NSString *amplitudeKey = [ios valueForKey:@"ampKeyStaging"];
-#else
-		NSString *amplitudeKey = [ios valueForKey:@"ampKey"];
-#endif
+		NSString *amplitudeKey;
+		if (appDelegate.debugModeBuild) {
+			amplitudeKey = [ios valueForKey:@"ampKeyStaging"];
+		} else {
+			amplitudeKey = [ios valueForKey:@"ampKey"];
+		}
 
 		[Amplitude initializeApiKey:amplitudeKey];
 
