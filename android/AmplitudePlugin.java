@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 
-import package com.amplitude.api;
+import com.amplitude.api.*;
 
 public class AmplitudePlugin implements IPlugin {
     Activity activity;
