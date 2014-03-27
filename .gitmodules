@@ -1,3 +1,6 @@
 [submodule "android/sdk"]
 	path = android/sdk
 	url = https://github.com/amplitude/Amplitude-Android.git
+[submodule "ios/sdk"]
+	path = ios/sdk
+	url = https://github.com/amplitude/Amplitude-iOS.git

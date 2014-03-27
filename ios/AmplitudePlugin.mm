@@ -38,6 +38,36 @@
 	}
 }
 
+- (void) setUser:(NSDictionary *)jsonObject {
+	@try {
+		NSString *userId = [jsonObject valueForKey:@"user"];
+
+		[Amplitude setUserId:userId];
+
+		NSLOG(@"{amplitude} Set user id: %@", userId);
+	}
+	@catch (NSException *exception) {
+		NSLOG(@"{amplitude} Exception while processing setUser:", exception);
+	}
+}
+
+- (void) setGlobalProperty:(NSDictionary *)jsonObject {
+	@try {
+		NSString *key = [jsonObject valueForKey:@"name"];
+		NSString *value = [jsonObject valueForKey:@"value"];
+
+		NSMutableDictionary *eventProperties = [NSMutableDictionary dictionary];
+		[eventProperties setValue:value forKey:key];
+
+		[Amplitude setUserProperties:eventProperties];
+
+		NSLOG(@"{amplitude} Setting property '%@' to value '%@'", key, value);
+	}
+	@catch (NSException *exception) {
+		NSLOG(@"{amplitude} Exception while processing setGlobalProperty:", exception);
+	}
+}
+
 - (void) track:(NSDictionary *)jsonObject {
 	@try {
 		NSString *eventName = [jsonObject valueForKey:@"eventName"];
@@ -48,15 +78,14 @@
 
 			NSLOG(@"{amplitude} Delivered event '%@'", eventName);
 		} else {
-			[Amplitude logEvent:eventName withCustomProperties:evtParams];
+			[Amplitude logEvent:eventName withEventProperties:evtParams];
 
 			NSLOG(@"{amplitude} Delivered event '%@' with %d params", eventName, (int)[evtParams count]);
 		}
 	}
 	@catch (NSException *exception) {
-		NSLOG(@"{amplitude} Exception while processing event: ", exception);
+		NSLOG(@"{amplitude} Exception while processing track:", exception);
 	}
 }
 
 @end
-

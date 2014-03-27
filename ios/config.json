@@ -1,10 +1,10 @@
 {
 	"code": [
-		"Amplitude.h",
-		"Amplitude.m",
-		"AmplitudeARCMacros.h",
-		"AmplitudeLocationManagerDelegate.h",
-		"AmplitudeLocationManagerDelegate.m",
+		"sdk/Amplitude.h",
+		"sdk/Amplitude.m",
+		"sdk/AmplitudeARCMacros.h",
+		"sdk/AmplitudeLocationManagerDelegate.h",
+		"sdk/AmplitudeLocationManagerDelegate.m",
 		"AmplitudePlugin.h",
 		"AmplitudePlugin.mm"
 	],
