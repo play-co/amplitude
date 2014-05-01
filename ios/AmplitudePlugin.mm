@@ -1,5 +1,6 @@
 #import "AmplitudePlugin.h"
 #import "Amplitude.h"
+#import "platform/log.h"
 
 @implementation AmplitudePlugin
 
@@ -31,10 +32,10 @@
 
 		[Amplitude initializeApiKey:amplitudeKey];
 
-		NSLog(@"{amplitude} Initialized with manifest amplitudeKey: '%@'", amplitudeKey);
+		NSLOG(@"{amplitude} Initialized with manifest amplitudeKey: '%@'", amplitudeKey);
 	}
 	@catch (NSException *exception) {
-		NSLog(@"{amplitude} Failure to get ios:amplitudeKey from manifest file: %@", exception);
+		NSLOG(@"{amplitude} Failure to get ios:amplitudeKey from manifest file: %@", exception);
 	}
 }
 
