@@ -617,7 +617,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
     
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:[NSString stringWithFormat:@"%d", [postData length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
     
     [request setHTTPBody:postData];
     
@@ -657,7 +657,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
                  }
                  SAFE_ARC_RELEASE(result);
              } else {
-                 NSLog(@"ERROR: Connection response received:%d, %@", [httpResponse statusCode],
+                 NSLog(@"ERROR: Connection response received:%ld, %@", (long)[httpResponse statusCode],
                        SAFE_ARC_AUTORELEASE([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]));
              }
          } else if (error != nil) {
@@ -1046,7 +1046,7 @@ static AmplitudeLocationManagerDelegate *locationManagerDelegate;
 {
     const char* str = [input UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
-    CC_MD5(str, strlen(str), result);
+    CC_MD5(str, (unsigned int)strlen(str), result);
     
     NSMutableString *ret = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH*2];
     for(int i = 0; i<CC_MD5_DIGEST_LENGTH; i++) {
