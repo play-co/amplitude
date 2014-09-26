@@ -73,11 +73,11 @@
 - (void) trackRevenue:(NSDictionary *)jsonObject {
 	@try {
 		NSNumber * price = [jsonObject valueForKey:@"price"];
-		NSNumber * quantity = [jsonObject valueForKey:@"quantity"];
+		NSInteger quantity = [[jsonObject objectForKey:@"quantity"] integerValue];
 		NSString * product = [jsonObject valueForKey:@"id"];
 
 		[Amplitude logRevenue:product quantity:quantity price:price];
-		NSLOG(@"{amplitude} logging purchase of %@ '%@' at %@ / ea", quantity, product, price);
+		NSLOG(@"{amplitude} logging purchase of %d '%@' at %@ / ea", quantity, product, price);
 	}
 	@catch (NSException * exception) {
 		NSLOG(@"{amplitude} Exception while logging revenue : ", exception);
