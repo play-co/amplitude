@@ -38,23 +38,49 @@
 	}
 }
 
+- (void) setUserId:(NSDictionary *)jsonObject {
+	@try {
+		NSString * userId = [jsonObject valueForKey:@"userId"];
+		[Amplitude setUserId:userId];
+		NSLOG(@"{amplitude} set usedID to '%@'", userId);
+	}
+	@catch (NSException * exception) {
+		NSLOG(@"{amplitude} Exception while setting user id : ", exception);
+	}
+}
+
 - (void) track:(NSDictionary *)jsonObject {
 	@try {
 		NSString *eventName = [jsonObject valueForKey:@"eventName"];
-		
-		NSDictionary *evtParams = [jsonObject objectForKey:@"params"];
-		if (!evtParams || [evtParams count] <= 0) {
-			[Amplitude logEvent:eventName];
 
+		NSDictionary *evtParams = [jsonObject objectForKey:@"params"];
+
+		if (!evtParams || [evtParams count] <= 0) {
+			// No params, just deliver event name
+			[Amplitude logEvent:eventName];
 			NSLOG(@"{amplitude} Delivered event '%@'", eventName);
 		} else {
-			[Amplitude logEvent:eventName withCustomProperties:evtParams];
-
+			// Deliver event *with* params
+			[Amplitude logEvent:eventName withEventProperties:evtParams];
 			NSLOG(@"{amplitude} Delivered event '%@' with %d params", eventName, (int)[evtParams count]);
 		}
 	}
 	@catch (NSException *exception) {
 		NSLOG(@"{amplitude} Exception while processing event: ", exception);
+	}
+}
+
+- (void) trackRevenue:(NSDictionary *)jsonObject {
+	@try {
+		NSNumber * price = [jsonObject valueForKey:@"price"];
+		NSNumber * quantity = [jsonObject valueForKey:@"quantity"];
+		NSString * product = [jsonObject valueForKey:@"id"];
+
+		[Amplitude logRevenue:product quantity:quantity price:price];
+		NSLOG(@"{amplitude} logging purchase of %@ '%@' at %@ / ea", quantity, product, price);
+	}
+	@catch (NSException * exception) {
+		NSLOG(@"{amplitude} Exception while logging revenue : ", exception);
 	}
 }
 
