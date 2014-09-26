@@ -23,7 +23,7 @@
 	@try {
 		NSDictionary *ios = [manifest valueForKey:@"ios"];
 
-#ifdef DEBUG
+#ifndef RELEASE
 		NSString *amplitudeKey = [ios valueForKey:@"ampKeyStaging"];
 #else
 		NSString *amplitudeKey = [ios valueForKey:@"ampKey"];
