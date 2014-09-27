@@ -1,7 +1,13 @@
 import device;
 
-var hasNativeEvents = GLOBAL.NATIVE && NATIVE.plugins && NATIVE.plugins.sendEvent;
-var isBrowser = !hasNativeEvents && !device.isMobileNative && GLOBAL.document && GLOBAL.amplitude;
+var hasNativeEvents = GLOBAL.NATIVE &&
+	NATIVE.plugins &&
+	NATIVE.plugins.sendEvent;
+
+var isBrowser = !hasNativeEvents &&
+	!device.isMobileNative &&
+	GLOBAL.document &&
+	GLOBAL.amplitude;
 
 var Amplitude = Class(function () {
 
@@ -17,22 +23,26 @@ var Amplitude = Class(function () {
 				amplitude.setVersionName(CONFIG.version);
 			}
 		}
-	}
+	};
 
 	this.setUserId = function (userId) {
+		logger.log('setUserId', userId);
 		if (isBrowser) {
 			amplitude.setUserId(userId);
-		}
-	}
+		} else if (device && device.isIOS) {
+      var data = JSON.stringify({userId: userId});
+      NATIVE.plugins.sendEvent('AmplitudePlugin', 'setUserId', data);
+    }
+	};
 
 	this.trackEvent =
 	this.track = function (name, data) {
 		if (DEBUG) {
-			logger.log("track: ", name, JSON.stringify(data));
+			logger.log('track: ', name, JSON.stringify(data));
 		}
 
 		if (hasNativeEvents) {
-			NATIVE.plugins.sendEvent("AmplitudePlugin", "track", JSON.stringify({
+			NATIVE.plugins.sendEvent('AmplitudePlugin', 'track', JSON.stringify({
 					eventName: name,
 					params: data
 				}));
@@ -46,17 +56,33 @@ var Amplitude = Class(function () {
 					});
 			}
 
-			logger.log("tracking", name);
+			logger.log('tracking', name);
 			amplitude.logEvent(name, data);
+		}
+	};
+
+	this.trackRevenue = function (product, price, quantity) {
+		if (DEBUG) {
+			logger.log('trackRevenue', product, quantity, price);
+		}
+
+		if (hasNativeEvents) {
+			var data = JSON.stringify({
+				id: product,
+				price: price,
+				quantity: quantity
+			});
+
+			NATIVE.plugins.sendEvent('AmplitudePlugin', 'trackRevenue', data);
 		}
 	};
 
 	this.setGlobalProperty = function (name, value) {
 		if (hasNativeEvents) {
-			NATIVE.plugins.sendEvent("AmplitudePlugin", "setGlobalProperty",
+			NATIVE.plugins.sendEvent('AmplitudePlugin', 'setGlobalProperty',
 				JSON.stringify({ name: name, value: value }));
 		}
-	}
+	};
 });
 
 exports = new Amplitude();

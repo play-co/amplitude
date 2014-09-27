@@ -86,7 +86,7 @@ public class AmplitudePlugin implements IPlugin {
             String value = obj.getString("value");
 
             globalProperties.put(key, value);
-            Amplitude.setGlobalUserProperties(globalProperties);
+            Amplitude.setUserProperties(globalProperties);
         } catch (JSONException exception) {
         }
     }
@@ -105,6 +105,28 @@ public class AmplitudePlugin implements IPlugin {
             logger.log("{amplitude} track - success: " + eventName);
         } catch (JSONException e) {
             logger.log("{amplitude} track - failure: " + eventName + " - " + e.getMessage());
+        }
+    }
+
+    public void setUserId(String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String id = obj.getString("userId");
+            Amplitude.setUserId(id);
+        } catch (JSONException e) {
+            logger.log("{amplitude} setUserId - failure: " + e.getMessage());
+        }
+    }
+
+    public void trackRevenue (String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String id = obj.getString("id");
+            double price = obj.getDouble("price");
+            int quantity = obj.getInt("quantity");
+            Amplitude.logRevenue(id, quantity, price);
+        } catch (JSONException e) {
+            logger.log("{amplitude} trackRevenue - failure: " + e.getMessage());
         }
     }
 
