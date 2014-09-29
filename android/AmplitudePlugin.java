@@ -130,6 +130,15 @@ public class AmplitudePlugin implements IPlugin {
         }
     }
 
+    public void setUserProperties (String json) {
+        try {
+            JSONObject props = new JSONObject(json);
+            Amplitude.setUserProperties(props);
+        } catch (JSONException e) {
+            logger.log("{amplitude} setUserProperties error: " + e.getMessage());
+        }
+    }
+
     public void onDestroy() {
     }
 

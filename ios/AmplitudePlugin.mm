@@ -84,5 +84,14 @@
 	}
 }
 
+- (void) setUserProperties:(NSDictionary *)jsonObject {
+	@try {
+		[Amplitude setUserProperties:jsonObject];
+	}
+	@catch (NSException * exception) {
+		NSLOG(@"{amplitude} Exception while setting user properties : ", exception);
+	}
+}
+
 @end
 

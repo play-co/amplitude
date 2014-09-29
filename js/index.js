@@ -83,6 +83,13 @@ var Amplitude = Class(function () {
 				JSON.stringify({ name: name, value: value }));
 		}
 	};
+
+	this.setUserProperties = function (props) {
+		if (hasNativeEvents) {
+			var opts = JSON.stringify(props);
+			NATIVE.plugins.sendEvent('AmplitudePlugin', 'setUserProperties', opts);
+		}
+	};
 });
 
 exports = new Amplitude();
