@@ -1,61 +1,71 @@
 # Game Closure DevKit Plugin: Amplitude
 
-This plugin supports iOS and Android tracking events through the Amplitude service.
+This module supports iOS and Android tracking events through the Amplitude service.
 
-## Usage
-
-Install the plugin with `basil install amplitude`.
-
-Include it in the `manifest.json` file under the "addons" section for your game:
+## Installation
+Install the module using the standard devkit install process:
 
 ~~~
-"addons": [
-	"amplitude"
-],
+devkit install https://github.com/gameclosure/amplitude#v2.0.0
 ~~~
 
-Under the Android section, you can configure the Amplitude plugin:
+## Setup
 
+Create an app in the Amplitude dashboard and copy your API key. You may want to
+create different keys for production vs staging, as well as iOS vs android.
+
+In your `manifest.json` file add the API keys under the `ios` and `android` keys
+(create them if they do not exist).
+
+Release builds will use the API key in the `ampKey` field; debug builds will use
+the key in `ampKeyStaging`.
+
+
+On Android:
 ~~~
-	"android": {
-		"versionCode": 1,
-		"icons": {
-			"36": "resources/icons/android36.png",
-			"48": "resources/icons/android48.png",
-			"72": "resources/icons/android72.png",
-			"96": "resources/icons/android96.png"
-		},
-		"ampKey": "MUmm2eD3qdBSPlcLb3qz",
-		"ampKeyStaging": "MUmm2eD3qdBSPlcLb3qz"
-	}
+    "android": {
+        "ampKey": "MUmm2eD3qdBSPlcLb3qz",
+        "ampKeyStaging": "MUmm2eD3qdBSPlcLb3qz"
+    }
 ~~~
 
-The `ampKey` will be used when building in "release" mode, and `ampKeyStaging`
-will be used when building in "debug" mode.  To make your tracking work on both
-be sure to specify keys for both modes.
+
+
 
 To use Amplitude tracking in your game, import the plugin:
 
 ~~~
-import plugins.amplitude.amplitude as amplitude;
+import amplitude;
 ~~~
 
 Then send individual track events like this:
 
 ~~~
 amplitude.track("myEvent", {
-	"score": 999,
-	"coins": 11,
-	"isRandomParameter": true
+    "score": 999,
+    "coins": 11,
+    "isRandomParameter": true
 });
 ~~~
+
+You can track revenue using the `trackRevenue` function:
+
+~~~
+amplitude.trackRevenue(
+  info.sku,        // item name
+  item.price,      // price
+  item.quantity,   // quantity
+
+);
+~~~
+
 
 ## Testing
 
 To test for successful integration, build your game:
 
 ~~~
-basil debug native-android --clean --open
+devkit debug native-android --clean --open
 ~~~
 
 Then watch logcat:
@@ -69,7 +79,7 @@ If Amplitude is hooked up properly, you'll see something like this:
 ~~~
 D/JS      ( 4673): LOG plugins.amplitude.install {amplitude} logEvent:  AppStart [object Object]
 D/JS      ( 4673): LOG plugins.amplitude.install {amplitude} logEvent:  UpgradePriceGroup [object Object]
-E/JS      ( 4673): {amplitude} {android} logEvent - success: AppStart 
+E/JS      ( 4673): {amplitude} {android} logEvent - success: AppStart
 E/JS      ( 4673): {amplitude} {android} logEvent - success: UpgradePriceGroup
 ~~~
 
@@ -77,4 +87,4 @@ E/JS      ( 4673): {amplitude} {android} logEvent - success: UpgradePriceGroup
 
 You can conclusively confirm events are going through on the Amplitude website.
 
-iOS similarly does not print out anything useful when it is working properly.  Just look for errors on the console by searching for "amplitude."
+iOS similarly does not print out anything useful when it is working properly. Just look for errors on the console by searching for "amplitude."
