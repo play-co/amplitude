@@ -75,9 +75,15 @@
 		NSNumber * price = [jsonObject valueForKey:@"price"];
 		NSInteger quantity = [[jsonObject objectForKey:@"quantity"] integerValue];
 		NSString * product = [jsonObject valueForKey:@"id"];
+		NSString * receiptBase64 = [jsonObject valueForKey:@"receipt"];
 
-		[Amplitude logRevenue:product quantity:quantity price:price];
-		NSLOG(@"{amplitude} logging purchase of %d '%@' at %@ / ea", quantity, product, price);
+		if (receiptBase64 != nil) {
+			NSData * receiptData = [[NSData alloc] initWithBase64Encoding:receiptBase64];
+			[Amplitude logRevenue:product quantity:quantity price:price receipt:receiptData];
+		} else {
+			[Amplitude logRevenue:product quantity:quantity price:price];
+		}
+			NSLOG(@"{amplitude} logging purchase of %d '%@' at %@ / ea", quantity, product, price);
 	}
 	@catch (NSException * exception) {
 		NSLOG(@"{amplitude} Exception while logging revenue : ", exception);

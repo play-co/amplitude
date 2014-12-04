@@ -61,7 +61,7 @@ var Amplitude = Class(function () {
 		}
 	};
 
-	this.trackRevenue = function (product, price, quantity) {
+	this.trackRevenue = function (product, price, quantity, receipt, purchaseData) {
 		if (DEBUG) {
 			logger.log('trackRevenue', product, quantity, price);
 		}
@@ -70,7 +70,9 @@ var Amplitude = Class(function () {
 			var data = JSON.stringify({
 				id: product,
 				price: price,
-				quantity: quantity
+				quantity: quantity,
+				receipt: receipt,
+				purchaseData: purchaseData
 			});
 
 			NATIVE.plugins.sendEvent('AmplitudePlugin', 'trackRevenue', data);

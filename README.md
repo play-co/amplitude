@@ -59,6 +59,27 @@ amplitude.trackRevenue(
 );
 ~~~
 
+You can also take advantage of amplitude's verified purchase functionality
+by passing the purchase validation information to the trackRevenue function.
+On iOS this should be a base64 string of the
+[transactionReceipt](https://developer.apple.com/library/ios/documentation/StoreKit/Reference/SKPaymentTransaction_Class/index.html#//apple_ref/occ/instp/SKPaymentTransaction/payment).
+On the google play store you should pass the `INAPP_DATA_SIGNATURE` and the
+`INAPP_PURCHASE_DATA` strings, in that order
+([docs](http://developer.android.com/google/play/billing/billing_integrate.html#Purchase)).
+
+~~~
+    amplitude.trackRevenue(
+      info.sku,
+      item.price,
+      item.quantity,
+      info.signature,
+      info.purchaseData
+    );
+~~~
+
+See a working version in the [billing demo
+app](https://github.com/gameclosure/demoBilling).
+
 
 ## Testing
 

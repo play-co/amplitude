@@ -124,7 +124,17 @@ public class AmplitudePlugin implements IPlugin {
             String id = obj.getString("id");
             double price = obj.getDouble("price");
             int quantity = obj.getInt("quantity");
-            Amplitude.logRevenue(id, quantity, price);
+
+            if (obj.has("purchaseData") && obj.has("receipt")) {
+                String purchaseData = obj.getString("purchaseData");
+                String receiptSignature = obj.getString("receipt");
+
+                if (purchaseData != null && receiptSignature != null) {
+                  Amplitude.logRevenue(id, quantity, price, purchaseData, receiptSignature);
+                }
+            } else {
+              Amplitude.logRevenue(id, quantity, price);
+            }
         } catch (JSONException e) {
             logger.log("{amplitude} trackRevenue - failure: " + e.getMessage());
         }
