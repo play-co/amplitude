@@ -30,9 +30,9 @@ var Amplitude = Class(function () {
 		if (isBrowser) {
 			amplitude.setUserId(userId);
 		} else if (device && device.isIOS) {
-      var data = JSON.stringify({userId: userId});
-      NATIVE.plugins.sendEvent('AmplitudePlugin', 'setUserId', data);
-    }
+			var data = JSON.stringify({userId: userId});
+			NATIVE.plugins.sendEvent('AmplitudePlugin', 'setUserId', data);
+		}
 	};
 
 	this.trackEvent =
