@@ -13,7 +13,7 @@ var Amplitude = Class(function () {
 
 	this.init = function () {
 
-		this._config = CONFIG.modules.amplitude || {};
+		this._config = (CONFIG.modules && CONFIG.modules.amplitude) || {};
 
 		if (isBrowser) {
 
