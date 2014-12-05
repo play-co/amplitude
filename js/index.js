@@ -26,12 +26,15 @@ var Amplitude = Class(function () {
 	};
 
 	this.setUserId = function (userId) {
-		logger.log('setUserId', userId);
-		if (isBrowser) {
-			amplitude.setUserId(userId);
-		} else if (device && device.isIOS) {
+		if (DEBUG) {
+			logger.log('setUserId: ', userId);
+		}
+
+		if (hasNativeEvents) {
 			var data = JSON.stringify({userId: userId});
 			NATIVE.plugins.sendEvent('AmplitudePlugin', 'setUserId', data);
+		} else if (isBrowser) {
+			amplitude.setUserId(userId);
 		}
 	};
 
