@@ -6,7 +6,7 @@ This module supports iOS and Android tracking events through the Amplitude servi
 Install the module using the standard devkit install process:
 
 ~~~
-devkit install https://github.com/gameclosure/amplitude#v2.0.0
+devkit install https://github.com/gameclosure/amplitude#v2.0.1
 ~~~
 
 ## Setup
