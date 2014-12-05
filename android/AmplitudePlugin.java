@@ -62,7 +62,7 @@ public class AmplitudePlugin implements IPlugin {
 
         Amplitude.initialize(activity, amplitudeKey);
 
-		logger.log("{amplitude} Initialized with key", amplitudeKey);
+        logger.log("{amplitude} Initialized with key", amplitudeKey);
     }
 
     public void onResume() {
