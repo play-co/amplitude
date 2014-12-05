@@ -42,7 +42,7 @@
 	@try {
 		NSString * userId = [jsonObject valueForKey:@"userId"];
 		[Amplitude setUserId:userId];
-		NSLOG(@"{amplitude} set usedID to '%@'", userId);
+		NSLOG(@"{amplitude} set userID to '%@'", userId);
 	}
 	@catch (NSException * exception) {
 		NSLOG(@"{amplitude} Exception while setting user id : ", exception);
