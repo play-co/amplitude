@@ -86,7 +86,7 @@ public class AmplitudePlugin implements IPlugin {
             String value = obj.getString("value");
 
             globalProperties.put(key, value);
-            Amplitude.setGlobalUserProperties(globalProperties);
+            Amplitude.setUserProperties(globalProperties);
         } catch (JSONException exception) {
         }
     }
@@ -105,6 +105,47 @@ public class AmplitudePlugin implements IPlugin {
             logger.log("{amplitude} track - success: " + eventName);
         } catch (JSONException e) {
             logger.log("{amplitude} track - failure: " + eventName + " - " + e.getMessage());
+        }
+    }
+
+    public void setUserId(String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String id = obj.getString("userId");
+            Amplitude.setUserId(id);
+        } catch (JSONException e) {
+            logger.log("{amplitude} setUserId - failure: " + e.getMessage());
+        }
+    }
+
+    public void trackRevenue (String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String id = obj.getString("id");
+            double price = obj.getDouble("price");
+            int quantity = obj.getInt("quantity");
+
+            if (obj.has("purchaseData") && obj.has("receipt")) {
+                String purchaseData = obj.getString("purchaseData");
+                String receiptSignature = obj.getString("receipt");
+
+                if (purchaseData != null && receiptSignature != null) {
+                  Amplitude.logRevenue(id, quantity, price, purchaseData, receiptSignature);
+                }
+            } else {
+              Amplitude.logRevenue(id, quantity, price);
+            }
+        } catch (JSONException e) {
+            logger.log("{amplitude} trackRevenue - failure: " + e.getMessage());
+        }
+    }
+
+    public void setUserProperties (String json) {
+        try {
+            JSONObject props = new JSONObject(json);
+            Amplitude.setUserProperties(props);
+        } catch (JSONException e) {
+            logger.log("{amplitude} setUserProperties error: " + e.getMessage());
         }
     }
 
