@@ -48,6 +48,23 @@ amplitude.track("myEvent", {
 });
 ~~~
 
+
+If you assign unique ids to your users you can send that on to amplitude
+so it can keep track of users in the same way you are:
+
+~~~
+amplitude.setUserId(userId);
+~~~
+
+You can also send additional user properties for more detailed segmentation:
+~~~
+amplitude.setUserProperties({
+    inTestGroup: true,
+    joinedTime: 1417814668
+});
+~~~
+
+
 You can track revenue using the `trackRevenue` function:
 
 ~~~
